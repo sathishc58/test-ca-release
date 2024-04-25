@@ -1,4 +1,4 @@
-name: 'Hello World'
+name: 'GitHub Action to fetch the changed files between GIT commits'
 description: 'Greet someone and record the time'
 outputs:
   files_list:
