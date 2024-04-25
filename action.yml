@@ -24,6 +24,6 @@ runs:
       id: generate-diff
       run: |
         echo `pwd` && ls -l
-        jsonString=$(python3 fetch-diff.py)
+        jsonString=$(python3 ${{ github.action_path }}/fetch-diff.py)
         echo "files_list=$jsonString" >> $GITHUB_OUTPUT
         echo "JSON String is $jsonString"
