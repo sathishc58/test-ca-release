@@ -1,0 +1,29 @@
+name: 'Hello World'
+description: 'Greet someone and record the time'
+outputs:
+  files_list:
+   description: "Location of the built package."
+   value: ${{ steps.generate-diff.outputs.files_list }}
+runs:
+  using: composite
+  steps:
+    - name: Checkout Repo
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+    - name: Install dependencies
+      shell: bash
+      run: pip install gitpython
+    - name: Set GitHub Path
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+    - name: Fetch the list of files changed as part of the commit
+      shell: bash
+      id: generate-diff
+      run: |
+        echo `pwd` && ls -l
+        jsonString=$(python3 fetch-diff.py)
+        echo "files_list=$jsonString" >> $GITHUB_OUTPUT
+        echo "JSON String is $jsonString"
